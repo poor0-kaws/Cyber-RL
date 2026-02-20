@@ -1,12 +1,10 @@
-from re import X
-from tabnanny import verbose
-import gymnasium, stable_baselines3, numpy
-from stable_baselines3.ppo import PPO, MlpPolicy, ppo
+import gymnasium as gym 
+from stable_baselines3 import PPO 
 from src.env import IdsEnv
 from src.data_loader import load_and_split
 
 
-X_train, X_test, y_train, y_test = load_and_split()
+X_train, y_train, X_test, y_test = load_and_split()
 
 env = IdsEnv(X_train, y_train)
 model = PPO("MlpPolicy", env, verbose=1)

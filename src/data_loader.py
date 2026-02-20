@@ -2,7 +2,8 @@ import numpy as np
 
 def generate_data(n_samples=1000, n_features=10): 
     X = np.random.randn(n_samples, n_features).astype(np.float32)
-    y = np.random.randint(0,2, size=n_samples)
+    # Use sum of features to determine label: if sum > 0, class 1, else class 0
+    y = (X.sum(axis=1) > 0).astype(int)
     return X, y
 
 def load_and_split(train_ratio=0.8): 

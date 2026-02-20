@@ -10,7 +10,7 @@ class IdsEnv(gym.Env):
         self.n_samples = len(self.X)
         self.current_idx = 0
         
-        self.action_space = gym.spaces.Discrete(3)
+        self.action_space = gym.spaces.Discrete(2)
 
         self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(self.X.shape[1],),dtype=np.float32)
         

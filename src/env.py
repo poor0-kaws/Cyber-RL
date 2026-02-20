@@ -1,7 +1,4 @@
-from random import seed
-from turtle import Terminator, reset
 import gymnasium as gym
-from gymnasium.spaces.utils import T
 import numpy as np 
 
 class IdsEnv(gym.Env): 
@@ -19,7 +16,7 @@ class IdsEnv(gym.Env):
         
     def reset(self,seed=None, options=None): 
         super().reset(seed=seed)
-        self.order = np.random.permutation(self.n_samples)
+        self.order = np.random.permutation(self.n_samples) # shuffles the numbers
         self.current_idx = 0
         first_obs = self.X[self.order[0]]
         
@@ -31,21 +28,20 @@ class IdsEnv(gym.Env):
         
         y = self.y[idx] # getting the true answer for the true
 
-        reward = None
-
+        reward = 0
         if action == y: # comparing action (agent guess) with the true answer
             reward += 5
-            self.current_idx += 1 
         else: 
             reward -= 10
-            self.current_idx += 1 
-        
-        terminated = self.current_idx >= self.n_samples
+            
+        self.current_idx += 1
 
-        if not terminated:
+        terminated = self.current_idx >= self.n_samples #check if current turn/index exceeds the number of samples
+
+        if not terminated: # if termination is false new environment is generatred
             obs = self.X[self.order[self.current_idx]]
         else: 
-            obs = np.zeros(self.observation_space.shape, dtype=np.float32)
+            obs = np.zeros(self.observation_space.shape, dtype=np.float32) #its a blank screen equivalent
 
         return obs, reward, terminated, False, {"label": y}
 
